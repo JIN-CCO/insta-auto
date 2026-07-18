@@ -30,6 +30,8 @@ function loadState() {
   manifest.index = idx;
   fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
   fs.writeFileSync(path.join(__dirname, '.current_post'), folder);
+  // Slack 알림용 제목 (커밋 메시지에 사용)
+  fs.writeFileSync(path.join(__dirname, '.post_title'), `${manifest.title} (${topic.series} #${String(topic.no).padStart(2, '0')})`);
 
   const remaining = content.length - idx - 1;
   console.log(`렌더 완료: ${topic.id} · ${topic.series} #${topic.no} (${idx + 1}/${content.length}) → output/${folder} [${manifest.files.length}장]`);
