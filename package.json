@@ -1,0 +1,14 @@
+{
+  "name": "insta-auto",
+  "version": "1.0.0",
+  "private": true,
+  "description": "매일 캐러셀 3개를 자동 생성해 인스타그램에 발행",
+  "scripts": {
+    "render": "node run-render.js",
+    "publish": "node run-publish.js",
+    "post": "node run-render.js && node run-publish.js"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}
