@@ -1,0 +1,57 @@
+name: 매일 인스타 자동 발행
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 23 * * *'
+    - cron: '0 4 * * *'
+    - cron: '0 10 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: insta-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 의존성 설치
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: 이미지 렌더링
+        env:
+          IG_HANDLE: ${{ secrets.IG_HANDLE }}
+        run: npm run render
+
+      - name: 이미지 커밋 & 푸시
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add output/
+          git commit -m "render: 새 게시물 이미지" || echo "변경 없음"
+          git push
+
+      - name: 인스타 발행
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: npm run publish
+
+      - name: 상태 저장
+        run: |
+          git add state.json
+          git commit -m "state: 다음 주제로 이동" || echo "변경 없음"
+          git push
