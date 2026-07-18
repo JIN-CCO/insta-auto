@@ -1,7 +1,8 @@
 // 2단계: 방금 렌더한(그리고 GitHub에 push된) 이미지를 인스타에 캐러셀로 발행한다.
 const fs = require('fs');
 const path = require('path');
-const { publishCarousel } = require('./lib/publish');
+const { publishCarousel, getPermalink } = require('./lib/publish');
+const { notifySlack } = require('./lib/notify');
 
 const IG_USER_ID = process.env.IG_USER_ID;
 const IG_ACCESS_TOKEN = process.env.IG_ACCESS_TOKEN;
@@ -33,6 +34,11 @@ function loadState() {
   console.log(`발행 시작: ${manifest.id} (이미지 ${imageUrls.length}장)`);
   const mediaId = await publishCarousel(IG_USER_ID, IG_ACCESS_TOKEN, imageUrls, manifest.caption);
   console.log(`✅ 발행 완료! media id: ${mediaId}`);
+
+  // Slack 업로드 알림 (SLACK_WEBHOOK_URL 있을 때만)
+  let permalink = null;
+  try { permalink = await getPermalink(mediaId, IG_ACCESS_TOKEN); } catch {}
+  await notifySlack({ title: manifest.title || manifest.id, series: manifest.series, no: manifest.no, mediaId, permalink });
 
   // 성공 시에만 다음 주제로 인덱스 이동
   const state = loadState();
