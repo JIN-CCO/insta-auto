@@ -2,7 +2,7 @@
 // 형식: series/no(시리즈 번호), coverQ, coverArt(그림 키), slides(중간 장들), caption, hashtags
 // 그림 키: bottle, petal, cable, holder, can, umbrella, multitap, bicycle, wheelcase, tumbler
 //          'a+b'로 두 개 나란히, 'flatVsCurved:라벨A|설명A|라벨B|설명B'는 비교 도식
-module.exports = [
+const topics = [
   // ───── 1주차 ─────
   {
     id: 'bottle',
@@ -268,3 +268,34 @@ module.exports = [
     hashtags: '#비행기 #설계 #안전 #생활공학',
   },
 ];
+
+// ── 해시태그 자동 조합 (조회수 최적화) ──────────────────────────
+// 구성: 주제태그(중형) + 시리즈태그(브랜딩) + 발견용 대형풀에서 매 게시물 다르게 8개 + 브랜드
+// 게시물마다 발견 태그가 회전해, 같은 태그 도배로 인한 스팸 판정을 피함.
+const DISCOVERY = [
+  '#알쓸신잡', '#생활상식', '#유용한정보', '#꿀팁', '#상식',
+  '#신기한사실', '#오늘의상식', '#지식', '#과학상식', '#호기심',
+  '#생활꿀팁', '#일상정보', '#정보공유', '#흥미로운사실', '#배움',
+  '#교양', '#디자인상식', '#제품이야기', '#공학', '#세상의모든지식',
+];
+const SERIES_TAG = {
+  '이거 왜 이렇게 만들었을까?': '#이거왜이렇게만들었을까',
+  '망가지는 데는 이유가 있다': '#망가지는데는이유가있다',
+  '싼 제품과 비싼 제품': '#싼거비싼거차이',
+  '알고 보면 다 이유가 있다': '#알고보면다이유가있다',
+  '누가 이렇게 설계했을까?': '#누가이렇게설계했을까',
+};
+const BRAND = ['#makeit', '#메이킷'];
+
+function buildHashtags(topic, i) {
+  const core = (topic.hashtags || '').split(/\s+/).filter(Boolean); // 주제 특화(중·소형)
+  const series = SERIES_TAG[topic.series] ? [SERIES_TAG[topic.series]] : [];
+  const off = (i * 3) % DISCOVERY.length;
+  const rotated = Array.from({ length: 8 }, (_, k) => DISCOVERY[(off + k) % DISCOVERY.length]);
+  const all = [...core, ...series, ...rotated, ...BRAND];
+  const seen = new Set();
+  const uniq = all.filter(t => { const key = t.toLowerCase(); if (seen.has(key)) return false; seen.add(key); return true; });
+  return uniq.slice(0, 16).join(' ');
+}
+
+module.exports = topics.map((t, i) => ({ ...t, hashtags: buildHashtags(t, i) }));
