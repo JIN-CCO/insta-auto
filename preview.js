@@ -25,6 +25,9 @@ const PDIR = path.join(OUT, '_photos');
     if (await fetchStockPhoto(topic.photo.detail, 'landscape', pp, k)) photos.details[si] = pp;
   }
 
+  const np = path.join(PDIR, 'next.jpg');
+  if (await fetchStockPhoto(nextTopic.photo.cover, 'landscape', np, 0)) photos.next = np;
+
   await renderMagCarousel(topic, nextTopic, 'makeit_pedia', photos, OUT);
   console.log('프리뷰 완료 — 커버사진', photos.cover ? 'O' : 'X', '| 본문사진', Object.keys(photos.details).length + '장');
 })().catch(function (e) { console.error(e); process.exit(1); });
