@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { renderMagCarousel, photoSlots } = require('./lib/render_mag');
 const { fetchStockPhoto } = require('./lib/stock');
+const { buildReel } = require('./lib/reel');
 const content = require('./content');
 
 const HANDLE = process.env.IG_HANDLE || 'makeit_pedia';
@@ -42,6 +43,17 @@ function loadState() {
   const manifest = await renderMagCarousel(topic, nextTopic, HANDLE, photos, outDir);
   manifest.folder = folder;
   manifest.index = idx;
+
+  // 넘기는 릴스(9:16 mp4) 생성 — 실패해도 캐러셀 발행엔 영향 없음
+  try {
+    const slidePaths = manifest.files.map((f) => path.join(outDir, f));
+    await buildReel(slidePaths, path.join(outDir, 'reel.mp4'), { dur: 2.6, trans: 0.6 });
+    manifest.reel = 'reel.mp4';
+    console.log('🎬 릴스 생성 완료: reel.mp4');
+  } catch (e) {
+    console.log('릴스 생성 실패(건너뜀):', e.message);
+  }
+
   fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
   fs.writeFileSync(path.join(__dirname, '.current_post'), folder);
   fs.writeFileSync(path.join(__dirname, '.post_title'), `${manifest.title} (${topic.series} #${String(topic.no).padStart(2, '0')})`);

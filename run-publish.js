@@ -1,7 +1,7 @@
 // 2단계: 방금 렌더한(그리고 GitHub에 push된) 이미지를 인스타에 캐러셀로 발행한다.
 const fs = require('fs');
 const path = require('path');
-const { publishCarousel, getPermalink } = require('./lib/publish');
+const { publishCarousel, publishReel, getPermalink } = require('./lib/publish');
 const { publishThreadsImage, getThreadsPermalink } = require('./lib/threads');
 const { notifySlack } = require('./lib/notify');
 
@@ -38,6 +38,17 @@ function loadState() {
 
   let permalink = null;
   try { permalink = await getPermalink(mediaId, IG_ACCESS_TOKEN); } catch {}
+
+  // 넘기는 릴스(동영상) 발행 — manifest.reel 있을 때만. 실패해도 캐러셀엔 영향 없음
+  if (manifest.reel) {
+    try {
+      const reelUrl = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/output/${folder}/${manifest.reel}`;
+      const reelId = await publishReel(IG_USER_ID, IG_ACCESS_TOKEN, reelUrl, manifest.caption);
+      console.log(`✅ 릴스 발행 완료! id: ${reelId}`);
+    } catch (e) {
+      console.log('릴스 발행 실패(건너뜀):', e.message);
+    }
+  }
 
   // 스레드 발행 (THREADS_USER_ID / THREADS_ACCESS_TOKEN 있을 때만) — 커버 1장 + 텍스트 훅
   let threadsPermalink = null;
