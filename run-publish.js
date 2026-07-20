@@ -40,12 +40,18 @@ function loadState() {
   try { permalink = await getPermalink(mediaId, IG_ACCESS_TOKEN); } catch {}
 
   // 넘기는 릴스(동영상) 발행 — manifest.reel 있을 때만. 실패해도 캐러셀엔 영향 없음
+  let reelOutcome = { attempted: false };
   if (manifest.reel) {
+    reelOutcome = { attempted: true };
     try {
+      // 캐러셀 발행 직후 곧바로 올리면 액션 차단 위험 → 잠깐 간격
+      await new Promise((r) => setTimeout(r, 20000));
       const reelUrl = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/output/${folder}/${manifest.reel}`;
       const reelId = await publishReel(IG_USER_ID, IG_ACCESS_TOKEN, reelUrl, manifest.caption);
+      reelOutcome = { attempted: true, ok: true, id: reelId };
       console.log(`✅ 릴스 발행 완료! id: ${reelId}`);
     } catch (e) {
+      reelOutcome = { attempted: true, ok: false, error: e.message };
       console.log('릴스 발행 실패(건너뜀):', e.message);
     }
   }
@@ -72,6 +78,7 @@ function loadState() {
   // 성공 시에만 다음 주제로 인덱스 이동
   const state = loadState();
   state.nextIndex = (typeof manifest.index === 'number' ? manifest.index : state.nextIndex) + 1;
+  state.lastReel = reelOutcome; // 릴스 발행 결과 기록(진단용)
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
   console.log(`다음 인덱스: ${state.nextIndex}`);
 })().catch((e) => {
