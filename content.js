@@ -37,7 +37,7 @@ const topics = [
   {
     id: 'holder_price',
     series: '싼 제품과 비싼 제품', no: 1,
-    coverQ: '3천 원과 3만 원 거치대,<br>뭐가 다를까?',
+    coverQ: '3천 원과 3만 원<br>거치대,<br>뭐가 다를까?',
     coverArt: 'holder',
     slides: [
       { type: 'body', chip: '관찰', h: '겉모습은<br>비슷해 보인다', d: '둘 다 폰을 세워주는 건 같아요. 차이는 눈에 잘 안 보이는 곳에 있습니다.', art: 'holder' },
@@ -83,7 +83,7 @@ const topics = [
   {
     id: 'multitap',
     series: '누가 이렇게 설계했을까?', no: 1,
-    coverQ: '멀티탭은 왜 큰 충전기를<br>꽂기 불편할까?',
+    coverQ: '멀티탭은<br>왜 큰 충전기를<br>꽂기 불편할까?',
     coverArt: 'multitap',
     slides: [
       { type: 'body', chip: '불편', h: '어댑터 하나가<br>두 칸을 잡아먹는다', d: '큰 충전기를 꽂으면 옆 구멍까지 가려버리죠. 누구나 겪는 불편인데, 왜 그대로일까요?', art: 'multitap' },
