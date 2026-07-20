@@ -35,6 +35,10 @@ function loadState() {
     const pp = path.join(PHOTO_DIR, `d${si}.jpg`);
     if (await fetchStockPhoto(topic.photo.detail, 'landscape', pp, idx + k)) photos.details[si] = pp;
   }
+  // 마지막 페이지(브랜드 아웃트로) 배경 — 깔끔한 CNC 정밀가공 사진
+  const outroPath = path.join(PHOTO_DIR, 'outro.jpg');
+  if (await fetchStockPhoto('cnc machining metal precision', 'portrait', outroPath, idx)) photos.outro = outroPath;
+
   const manifest = await renderMagCarousel(topic, nextTopic, HANDLE, photos, outDir);
   manifest.folder = folder;
   manifest.index = idx;
