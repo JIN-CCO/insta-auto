@@ -31,9 +31,10 @@ jobs:
           npm install
           npx playwright install --with-deps chromium
 
-      - name: 이미지 렌더링
+     - name: 이미지 렌더링
         env:
           IG_HANDLE: ${{ secrets.IG_HANDLE }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: npm run render
 
       - name: 이미지 커밋 & 푸시
