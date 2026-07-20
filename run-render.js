@@ -35,10 +35,6 @@ function loadState() {
     const pp = path.join(PHOTO_DIR, `d${si}.jpg`);
     if (await fetchStockPhoto(topic.photo.detail, 'landscape', pp, idx + k)) photos.details[si] = pp;
   }
-  // 다음 편 미리보기 사진
-  const nextPath = path.join(PHOTO_DIR, 'next.jpg');
-  if (nextTopic && await fetchStockPhoto(nextTopic.photo.cover, 'landscape', nextPath, 0)) photos.next = nextPath;
-
   const manifest = await renderMagCarousel(topic, nextTopic, HANDLE, photos, outDir);
   manifest.folder = folder;
   manifest.index = idx;
