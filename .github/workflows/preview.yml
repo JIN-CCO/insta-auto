@@ -1,0 +1,31 @@
+name: 매거진 프리뷰 (사진 테스트)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: 프리뷰 렌더
+        env:
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: node preview.js
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add preview/
+          git commit -m "preview: 매거진 사진 테스트" || echo "변경 없음"
+          git push
