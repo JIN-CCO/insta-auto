@@ -298,4 +298,26 @@ function buildHashtags(topic, i) {
   return uniq.slice(0, 16).join(' ');
 }
 
-module.exports = topics.map((t, i) => ({ ...t, hashtags: buildHashtags(t, i) }));
+// 주제별 사진 검색어(영문) — 커버(세로)·디테일(가로). 매거진 사진에 사용.
+const PHOTOS = {
+  bottle: { cover: 'plastic water bottle minimal', detail: 'water bottle factory production line' },
+  cable: { cover: 'phone charging cable', detail: 'frayed usb cable close up' },
+  holder_price: { cover: 'smartphone stand desk', detail: 'phone holder stand' },
+  can: { cover: 'aluminum soda can', detail: 'aluminum cans factory production' },
+  umbrella: { cover: 'umbrella rain', detail: 'broken umbrella wind' },
+  multitap: { cover: 'power strip extension cord', detail: 'power outlet adapter plug' },
+  bicycle: { cover: 'bicycle frame', detail: 'bicycle frame triangle close up' },
+  wheelcase: { cover: 'suitcase luggage', detail: 'luggage wheel close up' },
+  tumbler: { cover: 'stainless steel tumbler', detail: 'insulated tumbler coffee' },
+  manhole: { cover: 'round manhole cover street', detail: 'manhole cover metal' },
+  laptop: { cover: 'laptop computer open', detail: 'laptop hinge close up' },
+  paper: { cover: 'corrugated cardboard', detail: 'folded paper structure' },
+  creditcard: { cover: 'credit card', detail: 'credit card in wallet' },
+  glasscup: { cover: 'clear glass cup water', detail: 'cracked glass close up' },
+  wheel: { cover: 'car alloy wheel rim', detail: 'car wheel close up' },
+  clothespin: { cover: 'wooden clothespin laundry', detail: 'clothespin close up' },
+  keyboard: { cover: 'mechanical keyboard', detail: 'aluminum keyboard close up' },
+  airplanewindow: { cover: 'airplane window seat', detail: 'airplane cabin window' },
+};
+
+module.exports = topics.map((t, i) => ({ ...t, hashtags: buildHashtags(t, i), photo: PHOTOS[t.id] || { cover: t.id, detail: t.id } }));

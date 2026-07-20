@@ -1,3 +1,5 @@
 node_modules/
 .current_post
 .post_title
+.photos/
+preview/
