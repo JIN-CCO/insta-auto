@@ -20,6 +20,11 @@ function loadState() {
 }
 
 (async () => {
+  // 일시정지 스위치 — state.json의 paused:true 이면 발행하지 않고 종료 (인스타 차단 대기용)
+  if (loadState().paused) {
+    console.log('⏸️  일시정지(paused) 상태입니다 — 인스타 발행을 건너뜁니다.');
+    return;
+  }
   if (!IG_USER_ID || !IG_ACCESS_TOKEN) throw new Error('IG_USER_ID / IG_ACCESS_TOKEN 환경변수가 없습니다.');
   if (!REPO) throw new Error('GITHUB_REPOSITORY 환경변수가 없습니다 (로컬 테스트면 직접 지정하세요).');
 
