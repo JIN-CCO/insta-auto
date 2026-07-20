@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { publishCarousel, getPermalink } = require('./lib/publish');
+const { publishThreadsImage, getThreadsPermalink } = require('./lib/threads');
 const { notifySlack } = require('./lib/notify');
 
 const IG_USER_ID = process.env.IG_USER_ID;
@@ -35,10 +36,27 @@ function loadState() {
   const mediaId = await publishCarousel(IG_USER_ID, IG_ACCESS_TOKEN, imageUrls, manifest.caption);
   console.log(`✅ 발행 완료! media id: ${mediaId}`);
 
-  // Slack 업로드 알림 (SLACK_WEBHOOK_URL 있을 때만)
   let permalink = null;
   try { permalink = await getPermalink(mediaId, IG_ACCESS_TOKEN); } catch {}
-  await notifySlack({ title: manifest.title || manifest.id, series: manifest.series, no: manifest.no, mediaId, permalink });
+
+  // 스레드 발행 (THREADS_USER_ID / THREADS_ACCESS_TOKEN 있을 때만) — 커버 1장 + 텍스트 훅
+  let threadsPermalink = null;
+  const TU = process.env.THREADS_USER_ID, TT = process.env.THREADS_ACCESS_TOKEN;
+  if (TU && TT) {
+    try {
+      const coverUrl = imageUrls[0];
+      const tid = await publishThreadsImage(TU, TT, coverUrl, manifest.threadsText || manifest.title);
+      console.log(`✅ 스레드 발행 완료! id: ${tid}`);
+      try { threadsPermalink = await getThreadsPermalink(tid, TT); } catch {}
+    } catch (e) {
+      console.log('스레드 발행 실패(건너뜀):', e.message);
+    }
+  } else {
+    console.log('스레드 토큰 없음 — 스레드 발행 건너뜀');
+  }
+
+  // Slack 업로드 알림 (SLACK_WEBHOOK_URL 있을 때만)
+  await notifySlack({ title: manifest.title || manifest.id, series: manifest.series, no: manifest.no, permalink, threadsPermalink });
 
   // 성공 시에만 다음 주제로 인덱스 이동
   const state = loadState();
