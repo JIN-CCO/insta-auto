@@ -285,7 +285,7 @@ const SERIES_TAG = {
   '알고 보면 다 이유가 있다': '#알고보면다이유가있다',
   '누가 이렇게 설계했을까?': '#누가이렇게설계했을까',
 };
-const BRAND = ['#makeit', '#메이킷'];
+const BRAND = ['#makeit', '#메이크잇'];
 
 function buildHashtags(topic, i) {
   const core = (topic.hashtags || '').split(/\s+/).filter(Boolean); // 주제 특화(중·소형)
