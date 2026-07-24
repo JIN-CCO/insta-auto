@@ -47,7 +47,7 @@ function loadState() {
   // 넘기는 릴스(9:16 mp4) 생성 — 실패해도 캐러셀 발행엔 영향 없음
   try {
     const slidePaths = manifest.files.map((f) => path.join(outDir, f));
-    await buildReel(slidePaths, path.join(outDir, 'reel.mp4'), { dur: 2.6, trans: 0.6 });
+    await buildReel(slidePaths, path.join(outDir, 'reel.mp4'), { dur: 3.5, trans: 0.6 });
     manifest.reel = 'reel.mp4';
     console.log('🎬 릴스 생성 완료: reel.mp4');
   } catch (e) {

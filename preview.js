@@ -39,7 +39,7 @@ const INDICES = (process.env.PREVIEW_INDICES || '2,3,4')
     const manifest = await renderMagCarousel(topic, nextTopic, 'makeit_magazine', photos, dir);
     try {
       const slides = manifest.files.map((f) => path.join(dir, f));
-      await buildReel(slides, path.join(dir, 'reel.mp4'), { dur: 2.6, trans: 0.6 });
+      await buildReel(slides, path.join(dir, 'reel.mp4'), { dur: 3.5, trans: 0.6 });
       console.log(`  🎬 ${topic.id} 릴스 생성 완료`);
     } catch (e) {
       console.log(`  릴스 실패(${topic.id}):`, e.message);
