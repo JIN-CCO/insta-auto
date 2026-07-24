@@ -36,7 +36,7 @@ const INDICES = (process.env.PREVIEW_INDICES || '2,3,4')
     const op = path.join(pdir, 'outro.jpg');
     if (await fetchStockPhoto('cnc machining metal precision', 'portrait', op, idx)) photos.outro = op;
 
-    const manifest = await renderMagCarousel(topic, nextTopic, 'makeit_pedia', photos, dir);
+    const manifest = await renderMagCarousel(topic, nextTopic, 'makeit_magazine', photos, dir);
     try {
       const slides = manifest.files.map((f) => path.join(dir, f));
       await buildReel(slides, path.join(dir, 'reel.mp4'), { dur: 2.6, trans: 0.6 });

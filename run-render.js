@@ -6,7 +6,7 @@ const { fetchStockPhoto } = require('./lib/stock');
 const { buildReel } = require('./lib/reel');
 const content = require('./content');
 
-const HANDLE = process.env.IG_HANDLE || 'makeit_pedia';
+const HANDLE = 'makeit_magazine';
 const STATE_FILE = path.join(__dirname, 'state.json');
 const PHOTO_DIR = path.join(__dirname, '.photos');
 
