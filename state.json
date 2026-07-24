@@ -1,4 +1,10 @@
 {
-  "nextIndex": 4,
-  "stage": "reel"
+  "nextIndex": 5,
+  "stage": "carousel",
+  "reelTries": 0,
+  "lastReel": {
+    "attempted": true,
+    "ok": true,
+    "id": "18086280005178611"
+  }
 }
