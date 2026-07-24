@@ -3,9 +3,10 @@ name: 매일 인스타 자동 발행
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '0 23 * * *'
-    - cron: '0 4 * * *'
-    - cron: '0 10 * * *'
+    - cron: '0 0 * * *'    # 09:00 KST — 캐러셀
+    - cron: '10 0 * * *'   # 09:10 KST — 릴스
+    - cron: '0 9 * * *'    # 18:00 KST — 캐러셀
+    - cron: '10 9 * * *'   # 18:10 KST — 릴스
 
 permissions:
   contents: write
