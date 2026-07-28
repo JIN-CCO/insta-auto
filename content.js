@@ -285,17 +285,17 @@ const SERIES_TAG = {
   '알고 보면 다 이유가 있다': '#알고보면다이유가있다',
   '누가 이렇게 설계했을까?': '#누가이렇게설계했을까',
 };
-const BRAND = ['#makeit', '#메이크잇'];
+const BRAND = ['#메이크잇', '#makeit'];
 
+// 2026 트렌드: 해시태그는 "가장 관련 있는 3~5개"만. (30개 도배 → 오히려 불리)
+// 구성: 주제 특화 태그 상위 2~3개 + 시리즈 태그 + 브랜드(메이크잇). 총 5개 이내.
 function buildHashtags(topic, i) {
-  const core = (topic.hashtags || '').split(/\s+/).filter(Boolean); // 주제 특화(중·소형)
+  const core = (topic.hashtags || '').split(/\s+/).filter(Boolean); // 주제 특화(가장 관련 높음)
   const series = SERIES_TAG[topic.series] ? [SERIES_TAG[topic.series]] : [];
-  const off = (i * 3) % DISCOVERY.length;
-  const rotated = Array.from({ length: 8 }, (_, k) => DISCOVERY[(off + k) % DISCOVERY.length]);
-  const all = [...core, ...series, ...rotated, ...BRAND];
+  const all = [...core.slice(0, 3), ...series, ...BRAND];
   const seen = new Set();
   const uniq = all.filter(t => { const key = t.toLowerCase(); if (seen.has(key)) return false; seen.add(key); return true; });
-  return uniq.slice(0, 16).join(' ');
+  return uniq.slice(0, 5).join(' ');
 }
 
 // 주제별 사진 검색어(영문) — 커버(세로)·디테일(가로). 매거진 사진에 사용.
