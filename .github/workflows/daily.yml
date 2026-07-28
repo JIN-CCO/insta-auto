@@ -2,12 +2,12 @@ name: 매일 인스타 자동 발행
 
 on:
   workflow_dispatch: {}
-schedule:
+  schedule:
     - cron: '7 0 * * *'    # 09:07 KST — 캐러셀
     - cron: '17 0 * * *'   # 09:17 KST — 릴스
     - cron: '7 10 * * *'   # 19:07 KST — 캐러셀
     - cron: '17 10 * * *'  # 19:17 KST — 릴스
-    
+
 permissions:
   contents: write
 
