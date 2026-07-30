@@ -1,0 +1,41 @@
+name: 인스타 인사이트 수집
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: insta-insights
+  cancel-in-progress: false
+
+jobs:
+  insights:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 의존성 설치
+        run: npm install
+
+      - name: 인사이트 수집
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: npm run insights
+
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add insights/
+          git commit -m "📊 인사이트 수집" || echo "변경 없음"
+          git push
