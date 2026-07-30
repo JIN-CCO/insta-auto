@@ -6,6 +6,7 @@
   "scripts": {
     "render": "node run-render.js",
     "publish": "node run-publish.js",
+    "insights": "node run-insights.js",
     "post": "node run-render.js && node run-publish.js"
   },
   "dependencies": {
