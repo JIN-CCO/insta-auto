@@ -34,7 +34,8 @@ function loadState() {
   for (let k = 0; k < slots.length; k++) {
     const si = slots[k];
     const pp = path.join(PHOTO_DIR, `d${si}.jpg`);
-    if (await fetchStockPhoto(topic.photo.detail, 'landscape', pp, idx + k)) photos.details[si] = pp;
+    const q = (topic.slideQ && topic.slideQ[si]) || topic.photo.detail; // 슬라이드별 검색어(내용 연관성)
+    if (await fetchStockPhoto(q, 'landscape', pp, idx + k)) photos.details[si] = pp;
   }
   // 마지막 페이지(브랜드 아웃트로) 배경 — 깔끔한 CNC 정밀가공 사진
   const outroPath = path.join(PHOTO_DIR, 'outro.jpg');
