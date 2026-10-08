@@ -1,0 +1,20 @@
+{
+  "id": "cpu_gpu",
+  "title": "CPU와 GPU는 뭐가 다를까?",
+  "series": "알고 보면 다 이유가 있다",
+  "no": 50,
+  "caption": "CPU와 GPU는 둘 다 계산을 하지만 성격이 완전히 달라요. CPU는 복잡한 판단을 빠르게 처리하는 똑똑한 소수 정예, GPU는 단순 계산을 한꺼번에 해치우는 물량 담당인 셈이죠. 그래서 게임 화면이나 AI 연산엔 GPU가 빛을 발해요.\n\n여러분 기기엔 어떤 GPU가 들어 있나요?\n다음 편: 전압과 전류는 뭐가 다를까?\n\n💬 댓글에 \"견적\" 남기면 → 도면 제작 견적받는 법을 바로 DM으로 보내드려요\n📌 저장해두고 다시 보기 · 📤 궁금해할 친구에게 공유하기\n\n#CPU #GPU #반도체 #알고보면다이유가있다 #메이크잇",
+  "threadsText": "CPU와 GPU는 뭐가 다를까?\n\n컴퓨터엔 CPU도 있고 GPU도 있어요. 둘 다 계산을 하는데 왜 굳이 나눠 뒀을까요?\n\n👉 전체 내용은 인스타그램 @makeit_magazine 에서\n\n#CPU #GPU #반도체",
+  "files": [
+    "slide01.png",
+    "slide02.png",
+    "slide03.png",
+    "slide04.png",
+    "slide05.png",
+    "slide06.png",
+    "slide07.png"
+  ],
+  "folder": "cpu_gpu-37815993448",
+  "index": 148,
+  "reel": "reel.mp4"
+}
