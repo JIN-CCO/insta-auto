@@ -1,5 +1,6 @@
 {
-  "nextIndex": 148,
-  "stage": "carousel",
-  "reelTries": 0
+  "nextIndex": 106,
+  "stage": "reel",
+  "reelTries": 0,
+  "jumpTo": 148
 }

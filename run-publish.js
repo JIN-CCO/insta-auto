@@ -83,7 +83,11 @@ function likelyPublished(msg) {
     }
   }
   // 릴스 성공 or 최종 실패 → 다음 주제로
-  const nextIndex = (typeof manifest.index === 'number' ? manifest.index : st.nextIndex) + 1;
-  saveState({ stage: 'carousel', nextIndex, reelTries: 0, lastReel: reelOutcome });
-  console.log(`다음 주제 인덱스: ${nextIndex}`);
+  const base = (typeof manifest.index === 'number' ? manifest.index : st.nextIndex) + 1;
+  // jumpTo: 일회성 인덱스 점프(설정돼 있으면 이번 주제 완료 후 그 인덱스로 이동하고 소비)
+  const nextIndex = (typeof st.jumpTo === 'number') ? st.jumpTo : base;
+  const patch = { stage: 'carousel', nextIndex, reelTries: 0, lastReel: reelOutcome };
+  if (typeof st.jumpTo === 'number') patch.jumpTo = undefined;
+  saveState(patch);
+  console.log(`다음 주제 인덱스: ${nextIndex}` + (typeof st.jumpTo === 'number' ? ' (jumpTo 적용·소비됨)' : ''));
 })().catch((e) => { console.error(e); process.exit(1); });
