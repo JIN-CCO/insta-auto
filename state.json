@@ -2,9 +2,5 @@
   "nextIndex": 180,
   "stage": "reel",
   "reelTries": 0,
-  "lastReel": {
-    "attempted": true,
-    "ok": true,
-    "id": "18082922387430783"
-  }
+  "jumps": { "180": 198, "242": 181, "197": 107 }
 }
