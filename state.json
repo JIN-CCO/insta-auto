@@ -3,6 +3,7 @@
   "stage": "carousel",
   "reelTries": 0,
   "jumps": {
+    "147": 243,
     "197": 107,
     "242": 181
   },
