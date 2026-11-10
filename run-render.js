@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { renderMagCarousel, photoSlots } = require('./lib/render_mag');
-const { fetchStockPhoto } = require('./lib/stock');
+const { fetchStockPhoto, fetchStockPhotoChain } = require('./lib/stock');
 const { buildReel } = require('./lib/reel');
 const content = require('./content');
 
@@ -28,14 +28,17 @@ function loadState() {
   // 사진 가져오기 (없으면 placeholder로 대체됨)
   const photos = { cover: null, details: {} };
   const coverPath = path.join(PHOTO_DIR, 'cover.jpg');
-  if (await fetchStockPhoto(topic.photo.cover, 'portrait', coverPath, idx)) photos.cover = coverPath;
+  // 커버: 주제 커버 → 주제 디테일 → 공통 대체 순으로 시도 (결과가 빈약하면 다음 검색어로)
+  const GENERIC = 'cnc machining metal';
+  if (await fetchStockPhotoChain([topic.photo.cover, topic.photo.detail, GENERIC], 'portrait', coverPath, idx)) photos.cover = coverPath;
 
   const slots = photoSlots(topic);
   for (let k = 0; k < slots.length; k++) {
     const si = slots[k];
     const pp = path.join(PHOTO_DIR, `d${si}.jpg`);
-    const q = (topic.slideQ && topic.slideQ[si]) || topic.photo.detail; // 슬라이드별 검색어(내용 연관성)
-    if (await fetchStockPhoto(q, 'landscape', pp, idx + k)) photos.details[si] = pp;
+    // 슬라이드별 검색어(내용 연관성) → 주제 디테일 → 주제 커버 → 공통 대체 순으로 시도
+    const chain = [(topic.slideQ && topic.slideQ[si]) || null, topic.photo.detail, topic.photo.cover, GENERIC];
+    if (await fetchStockPhotoChain(chain, 'landscape', pp, idx + k)) photos.details[si] = pp;
   }
   // 마지막 페이지(브랜드 아웃트로) 배경 — 깔끔한 CNC 정밀가공 사진
   const outroPath = path.join(PHOTO_DIR, 'outro.jpg');

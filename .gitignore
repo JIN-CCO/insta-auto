@@ -3,3 +3,6 @@ node_modules/
 .post_title
 .photos/
 preview/_photos/
+
+# Claude 작업용 임시 폴더
+_claude_sync/
