@@ -1,6 +1,6 @@
 {
-  "nextIndex": 226,
-  "stage": "reel",
+  "nextIndex": 227,
+  "stage": "carousel",
   "reelTries": 0,
   "jumps": {
     "147": 243,
@@ -9,7 +9,7 @@
   },
   "lastReel": {
     "attempted": true,
-    "ok": true,
-    "id": "17970588621210560"
+    "ok": false,
+    "error": "API 오류 (17841446234152682/media): {\"message\":\"Error validating access token: Session has expired on Monday, 16-Nov-26 01:15:31 PST. The current time is Monday, 16-Nov-26 12:24:30 PST.\",\"type\":\"OAuthException\",\"code\":190,\"error_subcode\":0,\"fbtrace_id\":\"A7gAqFWvgMo6Pnm30gJ89AS\"}"
   }
 }
