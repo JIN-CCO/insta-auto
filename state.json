@@ -1,6 +1,6 @@
 {
-  "nextIndex": 232,
-  "stage": "reel",
+  "nextIndex": 233,
+  "stage": "carousel",
   "reelTries": 0,
   "jumps": {
     "147": 243,
@@ -9,7 +9,7 @@
   },
   "lastReel": {
     "attempted": true,
-    "ok": false,
-    "error": "컨테이너 처리 실패: 18087255632541139"
+    "ok": true,
+    "id": "18004678932009241"
   }
 }
